@@ -14,7 +14,6 @@
       font-family: 'Inter', sans-serif;
       margin: 0;
       background-color: #f4f4f4;
-
       display: flex;
       justify-content: center;
     }
@@ -38,53 +37,113 @@
       margin: 16px auto;
     }
 
-    .layout {
-      display: flex;
-      gap: 40px;
-      align-items: flex-start;
-    }
-
-    .left {
-      min-width: 200px;
-      text-align: left;
-    }
-
+    /* RIGHT SIDE NOW STACKS: top row then mini graphs */
     .right {
-      flex-grow: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* top row: text holder + main graph */
+    .graph-wrapper {
+      display: flex;
+      gap: 24px;
+      align-items: stretch;
+      justify-content: flex-end; /* push the whole row to the right */
+    }
+
+    /* left text holder */
+    .graph-text {
+      margin-top: 32px;
+      width: 220px;
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      font-size: 14px;
+      color: #444;
+    }
+
+    .graph-text h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    /* right graph area */
+    .graph-area {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
     }
 
     .graph-box {
       margin-top: 32px;
-      margin-left: auto;  
       width: 600px;
       max-width: 100%;
       height: 350px;
-
       background: white;
       border: 2px dashed #ccc;
       border-radius: 12px;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       color: #999;
       font-size: 16px;
       font-weight: 600;
-
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
-    .right {
-      flex-grow: 1;
+
+    /* caption */
+    .graph-caption {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #777;
+      text-align: right;
+      max-width: 600px;
+    }
+
+    /* mini graphs BELOW BOTH columns */
+    .small-graphs {
       display: flex;
-      justify-content: flex-end;
+      gap: 20px;
+      justify-content: flex-end; /* align under the right side */
+      flex-wrap: wrap;
+    }
+
+    .small-graph-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .small-graph-box {
+      width: 180px;
+      height: 120px;
+      background: white;
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #aaa;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .small-graph-caption {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #777;
+      text-align: center;
+      max-width: 180px;
     }
 
     a {
       display: block;
       margin-top: 24px;
       text-align: center;
-
       text-decoration: none;
       color: #4ca6f0;
       font-weight: 600;
@@ -93,49 +152,6 @@
     a:hover {
       text-decoration: underline;
     }
-
-    .graph-wrapper {
-      display: flex;
-      gap: 24px;
-      align-items: stretch;
-    }
-
-/* left text holder */
-  .graph-text {
-    margin-top: 32px;
-    
-    width: 220px;
-    background: #ffffff;
-    padding: 16px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
-    font-size: 14px;
-    color: #444;
-  }
-
-  .graph-text h3 {
-    margin-top: 0;
-    margin-bottom: 8px;
-    font-size: 16px;
-  }
-
-  /* right graph area */
-  .graph-area {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  /* caption */
-  .graph-caption {
-    margin-top: 8px;
-    font-size: 13px;
-    color: #777;
-    text-align: right;
-    max-width: 600px;
-  }
-
   </style>
 </head>
 
@@ -143,27 +159,39 @@
   <div class="container">
     <h1>Main</h1>
     <hr>
-      <div class="right">
-  <div class="graph-wrapper">
-    <div class="graph-text">
-      <h3>Graph Info</h3>
-      <p>
-        Text holder
-      </p>
-    </div>
 
-    <div class="graph-area">
-      <div class="graph-box">
-        <p>graph 1</p>
+    <div class="right">
+      <!-- TOP ROW -->
+      <div class="graph-wrapper">
+        <div class="graph-text">
+          <h3>Graph Info</h3>
+          <p>Text holder</p>
+        </div>
+
+        <div class="graph-area">
+          <div class="graph-box">graph here</div>
+          <p class="graph-caption">Figure 1: Main stock performance graph</p>
+        </div>
       </div>
-      <p class="graph-caption">
-        Figure 1: caption holder
-      </p>
-    </div>
-  </div>
-</div>
 
-    
+      <!-- MINI GRAPHS BELOW BOTH -->
+      <div class="small-graphs">
+        <div class="small-graph-item">
+          <div class="small-graph-box">mini-graph</div>
+          <p class="small-graph-caption">holder</p>
+        </div>
+
+        <div class="small-graph-item">
+          <div class="small-graph-box">mini-graph</div>
+          <p class="small-graph-caption">holder</p>
+        </div>
+
+        <div class="small-graph-item">
+          <div class="small-graph-box">mini-graph</div>
+          <p class="small-graph-caption">holder</p>
+        </div>
+      </div>
+    </div>
 
     <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
       nothing for now
@@ -171,3 +199,4 @@
   </div>
 </body>
 </html>
+
