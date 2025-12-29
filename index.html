@@ -196,7 +196,7 @@
   </div>
 
 <script>
-  const MAIN_GRAPH_URL = "http://127.0.0.1:8000/api/putcall";
+  const MAIN_GRAPH_URL = "http://127.0.0.1:8000/api/putcall";//api url
 
   async function drawMainGraph() {
     const el = document.getElementById("mainGraph");
@@ -206,10 +206,10 @@
       const res = await fetch(MAIN_GRAPH_URL);
       if (!res.ok) throw new Error("HTTP " + res.status);
 
-      // payload is the ARRAY you pasted
+      
       const data = await res.json();
 
-      // x = dte, y = ratio
+      
       const x = data.map(row => row.dte);
       const y = data.map(row => row.put_call_ratio);
 
@@ -219,7 +219,7 @@
         type: "bar"
       };
 
-      const layout = {
+      const layout = {//graph layout
         title: "Put/Call Ratio by DTE",
         xaxis: { title: "DTE (days to expiration)" },
         yaxis: { title: "Put/Call Ratio" },
@@ -237,8 +237,7 @@
     }
   }
 
-  drawMainGraph();
+  drawMainGraph();//run
 </script>
 </body>
 </html>
-
