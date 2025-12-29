@@ -195,45 +195,50 @@
     </a>
   </div>
 
-  <script>
-    const MAIN_GRAPH_URL = "/api/main-graph";
+<script>
+  const MAIN_GRAPH_URL = "http://127.0.0.1:8000/api/putcall";
 
-    async function drawMainGraph() {
-      const el = document.getElementById("mainGraph");
-      if (!el) return;
+  async function drawMainGraph() {
+    const el = document.getElementById("mainGraph");
+    if (!el) return;
 
-      try {
-        const res = await fetch(MAIN_GRAPH_URL);
-        if (!res.ok) throw new Error("HTTP " + res.status);
+    try {
+      const res = await fetch(MAIN_GRAPH_URL);
+      if (!res.ok) throw new Error("HTTP " + res.status);
 
-        const payload = await res.json();
+      // payload is the ARRAY you pasted
+      const data = await res.json();
 
-        const trace = {
-          x: payload.x,
-          y: payload.y,
-          type: payload.type || "bar",
-          mode: (payload.type === "scatter") ? (payload.mode || "lines+markers") : undefined
-        };
+      // x = dte, y = ratio
+      const x = data.map(row => row.dte);
+      const y = data.map(row => row.put_call_ratio);
 
-        const layout = {
-          title: payload.title || "Main Graph",
-          margin: { l: 40, r: 20, t: 50, b: 40 },
-          autosize: true
-        };
+      const trace = {
+        x,
+        y,
+        type: "bar"
+      };
 
-        Plotly.newPlot(el, [trace], layout, { responsive: true });
-      } catch (err) {
-        console.error(err);
-        el.innerHTML = `<div style="padding:16px; color:#999;">
-          Failed to load graph data.<br/>
-          ${String(err)}
-        </div>`;
-      }
+      const layout = {
+        title: "Put/Call Ratio by DTE",
+        xaxis: { title: "DTE (days to expiration)" },
+        yaxis: { title: "Put/Call Ratio" },
+        margin: { l: 60, r: 20, t: 50, b: 60 },
+        autosize: true
+      };
+
+      Plotly.newPlot(el, [trace], layout, { responsive: true });
+    } catch (err) {
+      console.error(err);
+      el.innerHTML = `<div style="padding:16px; color:#999;">
+        Failed to load graph data.<br/>
+        ${String(err)}
+      </div>`;
     }
+  }
 
-    
-    window.addEventListener("DOMContentLoaded", drawMainGraph);
-  </script>
+  drawMainGraph();
+</script>
 </body>
 </html>
 
