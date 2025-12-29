@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS / Editor
+.DS_Store
+.vscode/
+
+# Node / React
+node_modules/
+dist/
