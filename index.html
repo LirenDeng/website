@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stock project</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,21 +38,19 @@
     }
 
     .right {
-      width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 32px;
+      align-items: flex-end;
     }
 
     .graph-wrapper {
       display: flex;
       gap: 24px;
       align-items: stretch;
-      justify-content: flex-end;
     }
 
     .graph-text {
-      margin-top: 32px;
       width: 220px;
       background: #ffffff;
       padding: 16px;
@@ -75,7 +73,6 @@
     }
 
     .graph-box {
-      margin-top: 32px;
       width: 600px;
       max-width: 100%;
       height: 350px;
@@ -86,7 +83,7 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      overflow: hidden; /* helps Plotly fit */
+      overflow: hidden;
     }
 
     .graph-caption {
@@ -97,57 +94,17 @@
       max-width: 600px;
     }
 
-    .small-graphs {
-      display: flex;
-      gap: 20px;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-    }
-
-    .small-graph-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .small-graph-box {
-      width: 180px;
-      height: 120px;
-      background: white;
-      border: 2px dashed #ccc;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: #aaa;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
-    }
-
-    .small-graph-caption {
-      margin-top: 6px;
-      font-size: 12px;
-      color: #777;
-      text-align: center;
-      max-width: 180px;
-    }
-
     a {
       display: block;
-      margin-top: 24px;
+      margin-top: 32px;
       text-align: center;
       text-decoration: none;
       color: #4ca6f0;
       font-weight: 600;
     }
-
-    a:hover {
-      text-decoration: underline;
-    }
   </style>
 
-  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script> <!-- import Plotly library -->
 </head>
 
 <body>
@@ -156,88 +113,105 @@
     <hr>
 
     <div class="right">
+
+      <!-- graph 1 -->
       <div class="graph-wrapper">
         <div class="graph-text">
           <h3>Graph Info</h3>
-          <p>Text holder</p>
+          <p>Main Put/Call Ratio chart.</p>
         </div>
 
         <div class="graph-area">
           <div class="graph-box">
-            <!-- renders here -->
-            <div id="mainGraph" style="width:100%; height:100%;"></div>
+            <div id="graph1" style="width:100%; height:100%;"></div> <!-- id is graph1-->
           </div>
           <p class="graph-caption">Figure 1</p>
         </div>
       </div>
 
-      <!-- mini graphs row -->
-      <div class="small-graphs">
-        <div class="small-graph-item">
-          <div class="small-graph-box">mini-graph</div>
-          <p class="small-graph-caption">holder</p>
+      <!-- graph2 -->
+      <div class="graph-wrapper">
+        <div class="graph-text">
+          <h3>Graph Info</h3>
+          <p>Second metric visualization.</p>
         </div>
 
-        <div class="small-graph-item">
-          <div class="small-graph-box">mini-graph</div>
-          <p class="small-graph-caption">holder</p>
-        </div>
-
-        <div class="small-graph-item">
-          <div class="small-graph-box">mini-graph</div>
-          <p class="small-graph-caption">holder</p>
+        <div class="graph-area">
+          <div class="graph-box">
+            <div id="graph2" style="width:100%; height:100%;"></div><!-- id is graph 2-->
+          </div>
+          <p class="graph-caption">Figure 2</p>
         </div>
       </div>
+
+      <!-- graph 3 -->
+      <div class="graph-wrapper">
+        <div class="graph-text">
+          <h3>Graph Info</h3>
+          <p>Third metric visualization.</p>
+        </div>
+
+        <div class="graph-area">
+          <div class="graph-box">
+            <div id="graph3" style="width:100%; height:100%;"></div><!-- id is graph 3-->
+          </div>
+          <p class="graph-caption">Figure 3</p>
+        </div>
+      </div>
+
     </div>
 
-    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
-      nothing for now
-    </a>
+    <a href="#" target="_blank">nothing for now</a>
   </div>
 
 <script>
-  const MAIN_GRAPH_URL = "http://127.0.0.1:8000/api/putcall";//api url
+  const MAIN_GRAPH_URL = "http://127.0.0.1:8000/api/putcall";
+  const SECOND_GRAPH_URL = "http://127.0.0.1:8000/api/putcall";
 
   async function drawMainGraph() {
-    const el = document.getElementById("mainGraph");
-    if (!el) return;
+    const el = document.getElementById("graph1");
 
-    try {
-      const res = await fetch(MAIN_GRAPH_URL);
-      if (!res.ok) throw new Error("HTTP " + res.status);
+    const res = await fetch(MAIN_GRAPH_URL);
+    const data = await res.json();
 
-      
-      const data = await res.json();
+    const trace = {
+      x: data.map(d => d.dte),
+      y: data.map(d => d.put_call_ratio),
+      type: "bar"
+    };
 
-      
-      const x = data.map(row => row.dte);
-      const y = data.map(row => row.put_call_ratio);
-
-      const trace = {
-        x,
-        y,
-        type: "bar"
-      };
-
-      const layout = {//graph layout
-        title: "Put/Call Ratio by DTE",
-        xaxis: { title: "DTE (days to expiration)" },
-        yaxis: { title: "Put/Call Ratio" },
-        margin: { l: 60, r: 20, t: 50, b: 60 },
-        autosize: true
-      };
-
-      Plotly.newPlot(el, [trace], layout, { responsive: true });
-    } catch (err) {
-      console.error(err);
-      el.innerHTML = `<div style="padding:16px; color:#999;">
-        Failed to load graph data.<br/>
-        ${String(err)}
-      </div>`;
-    }
+    Plotly.newPlot(el, [trace], {
+      title: "Put/Call Ratio by DTE",
+      xaxis: { title: "DTE" },
+      yaxis: { title: "Put/Call Ratio" },
+      margin: { t: 50 }
+    }, { responsive: true });
   }
 
-  drawMainGraph();//run
+  
+  async function drawSecondGraph() {
+    const el = document.getElementById("graph2");
+
+    const res = await fetch(MAIN_GRAPH_URL);
+    const data = await res.json();
+
+    const trace = {
+      x: data.map(d => d.dte),
+      y: data.map(d => d.put_call_ratio),
+      type: "bar"
+    };
+
+    Plotly.newPlot(el, [trace], {
+      title: "Put/Call Ratio by DTE",
+      xaxis: { title: "DTE" },
+      yaxis: { title: "Put/Call Ratio" },
+      margin: { t: 50 }
+    }, { responsive: true });
+  }
+
+
+  drawMainGraph();
+  drawSecondGraph();
 </script>
 </body>
 </html>
