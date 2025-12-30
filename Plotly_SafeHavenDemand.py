@@ -18,7 +18,7 @@ returns_20d['Spread'] = returns_20d['SPY'] - returns_20d['IEF']
   # plot the single combined line
   # format hover menu
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=returns_20d.index, y=returns_20d['Spread'], mode='lines', name='Momentum Spread',
+fig.add_trace(go.Scatter(x=returns_20d.index, y=returns_20d['Spread']*100, mode='lines', name='Momentum Spread',
 hovertemplate='%{x}<br>%{y:.2f}%<extra></extra>'))
 
 # Add zero line
@@ -42,3 +42,4 @@ fig.update_layout(
 )
 
 fig.show()
+
