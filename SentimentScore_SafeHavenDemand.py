@@ -16,7 +16,7 @@ returns_20d['Spread'] = returns_20d['SPY'] - returns_20d['IEF']
 
 # Define the sentiment score
 def get_sentiment(spread):
-    if spread <= -0.02:
+    if spread <= -0.005:
         return "Extreme Fear"
     elif spread <= 0.015:
         return "Fear"
@@ -36,3 +36,4 @@ print(f"SPY 20d Return: {latest['SPY']:.4f}")
 print(f"IEF 20d Return: {latest['IEF']:.4f}")
 print(f"Return Spread:   {latest['Spread']:.4f}")
 print(f"Sentiment:       {latest['Sentiment']}")
+
