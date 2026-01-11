@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -151,6 +153,44 @@
     }
   </style>
 </head>
+
+<script>
+  //put fastapi url here
+  const API_URL = "url_link here"; 
+  
+
+  //fetch JSON data from backend
+  async function loadData() {
+    const res = await fetch(API_URL, { headers: { "Accept": "application/json" }});
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  }
+
+
+  async function renderPutCallChart() {
+    const data = await loadData();
+
+    const x = data.map(d => d.expiration);
+    const y = data.map(d => d.put_call_ratio);
+
+    Plotly.newPlot("right-graph-1", [
+      { type: "bar", x, y, name: "Put/Call Ratio" }
+    ], {
+      title: "Put/Call Ratio",
+      margin: { l: 40, r: 20, t: 40, b: 40 }
+    }, {
+      responsive: true,
+      displayModeBar: false
+    });
+  }
+
+  
+  renderPutCallChart().catch(err => {
+    document.getElementById("right-graph-1").innerHTML =
+      "Failed to load chart: " + err.message;
+  });
+</script>
+
 
 <body>
   <div class="page">
